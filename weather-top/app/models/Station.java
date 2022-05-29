@@ -34,11 +34,15 @@ public class Station extends Model
   public double maxWind;
   public double minPressure;
   public double maxPressure;
+  public String trendTemp;
+  public String trendWind;
+  public String trendPressure;
+
 
   /**
    * Constructor for Station object, latitude and longitude are rounded to three decimal places.
    * @param name describes the station name
-   * @param latitude describes geographical location of station between north and south pole, expressed in decimal degrees
+   * @param latitude describes geographical location of station between north and South Pole, expressed in decimal degrees
    * @param longitude describes the geographical location of a station east or west of greenwich meridian, expressed in decimal degrees
    */
   public Station(String name, double latitude, double longitude) {
@@ -123,6 +127,87 @@ public class Station extends Model
   public double getMaxPressure() {
     this.maxPressure = maxPressure();
     return maxPressure;
+  }
+
+  public String getTrendTemp() {
+    this.trendTemp = trendTemp();
+    return trendTemp;
+  }
+
+  public String getTrendWind() {
+    this.trendWind = trendWind();
+    return trendWind;
+  }
+
+  public String getTrendPressure() {
+    this.trendPressure = trendPressure();
+    return trendPressure;
+  }
+
+  public String trendTemp(){
+    String trend = "null";
+    if (readings.size() >=3){
+     int last = readings.size()-1;
+     int secondLast = readings.size()-2;
+     int thirdLast = readings.size()-3;
+
+     Reading r3 = readings.get(last);
+     Reading r2 = readings.get(secondLast);
+     Reading r1 = readings.get(thirdLast);
+
+     if ((r3.getTemperature()> r2.getTemperature())&&(r2.getTemperature()> r1.getTemperature())){
+       trend = "large white white arrow alternate circle up outline icon";
+     }
+     else if ((r3.getTemperature() < r2.getTemperature())&&(r2.getTemperature() < r1.getTemperature())){
+       trend = "large white white arrow alternate circle down outline icon";
+     }
+     else trend = "large white white arrow alternate circle right outline icon";
+    }
+    return trend;
+  }
+
+  public String trendWind(){
+    String trend = "null";
+    if (readings.size() >=3){
+      int last = readings.size()-1;
+      int secondLast = readings.size()-2;
+      int thirdLast = readings.size()-3;
+
+      Reading r3 = readings.get(last);
+      Reading r2 = readings.get(secondLast);
+      Reading r1 = readings.get(thirdLast);
+
+      if ((r3.getWindSpeed()> r2.getWindSpeed())&&(r2.getWindSpeed()> r1.getWindSpeed())){
+        trend = " large white arrow alternate circle up outline icon";
+      }
+      else if ((r3.getWindSpeed() < r2.getWindSpeed())&&(r2.getWindSpeed() < r1.getWindSpeed())){
+        trend = "large white arrow alternate circle down outline icon";
+      }
+      else trend = "large white arrow alternate circle right outline icon";
+    }
+    return trend;
+  }
+
+  public String trendPressure(){
+    String trend = "null";
+    if (readings.size() >=3) {
+      int last = readings.size()-1;
+      int secondLast = readings.size()-2;
+      int thirdLast = readings.size()-3;
+
+      Reading r3 = readings.get(last);
+      Reading r2 = readings.get(secondLast);
+      Reading r1 = readings.get(thirdLast);
+
+      if ((r3.getPressure()> r2.getPressure())&&(r2.getPressure()> r1.getPressure())){
+        trend = "large white white arrow alternate circle up outline icon";
+      }
+      else if ((r3.getPressure() < r2.getPressure())&&(r2.getPressure() < r1.getPressure())){
+        trend = "large white arrow alternate circle down outline icon";
+      }
+      else trend = "large white arrow alternate circle right outline icon";
+    }
+    return trend;
   }
 
   public double minTemp(){
@@ -248,9 +333,9 @@ public class Station extends Model
     return weatherCode;
   }
   /**
-   * tempCelcius() is a method that takes the temperature value from the
+   * tempCelsius() is a method that takes the temperature value from the
    * latest reading and returns it as a double.
-   * @return temperature from latest reading or 0.0
+   * @return temperature from the latest reading or 0.0
    */
   public double tempCelsius()
   {

@@ -47,6 +47,9 @@
           <p>
             <br><span class="ui large white text">Temp</span>
           </p>
+          <div class="ui container">
+            <i class="${station.trendTemp}" style="float:right;"> </i>
+          </div>
           <p class = "ui small text" style="line-height:1.25em;font-size: smaller">
             ${station.tempCelsius} &degC<br>
             ${station.tempFahrenheit} &degF<br><br><br>
@@ -63,6 +66,9 @@
           <p>
             <br><span class="ui large white text">Wind</span>
           </p>
+          <div class="ui container">
+            <i class="${station.trendWind}" style="float:right;"> </i>
+          </div>
           <p class = "ui small text" style="line-height:1.25em;font-size: smaller">
             ${station.beaufort} bft<br>
             ${station.windCompass}<br>
@@ -80,6 +86,9 @@
           <p>
             <br><span class="ui large white  text">Pressure</span>
           </p>
+          <div class="ui container">
+            <i class="${station.trendPressure}" style="float:right;"> </i>
+          </div>
           <p class = "ui small text" style="line-height:1.25em;font-size: smaller">
             ${station.pressure} hpa <br><br><br><br>
             <b>Min:</b> ${station.minPressure} <br>
