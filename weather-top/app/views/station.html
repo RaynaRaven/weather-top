@@ -3,7 +3,6 @@
 
 #{menu id:"dashboard"/}
 
-
 <section class="ui segment">
   <h2 class="ui header">
     ${station.name} Weather Station
@@ -19,9 +18,9 @@
           <p>
             <br><span class="ui large white text" style="font-style: "><b>${station.name}</b></span>
           </p>
-          <p class = "ui small text" style="line-height:1.25em;font-size: smaller">
+          <p class = "ui small text" style="line-height:1.25em;">
             <b>Lat:</b> ${station.latitude}<br>
-            <b>Lng:</b> ${station.longitude}<br><br><br><br><br>
+            <b>Lng:</b> ${station.longitude}<br><br><br><br>
           </p>
         </div>
       </div>
@@ -33,9 +32,9 @@
           <p>
             <br><span class="ui large white text">Weather</span>
           </p>
-          <p class = "ui small text" style="line-height:1.25em;font-size: smaller">
-            ${station.weatherCode}
-            <br><br><br><br><br><br>
+          <p class = "ui small text" style="line-height:1.25em;">
+           ${station.weatherCode}
+            <br><br><br><br><br>
           </p>
         </div>
       </div>
@@ -72,7 +71,7 @@
           <p class = "ui small text" style="line-height:1.25em;font-size: smaller">
             ${station.beaufort} bft<br>
             ${station.windCompass}<br>
-            <b>feels like:</b> ${station.windChill}<br><br>
+            Feels like: ${station.windChill} &deg<br><br>
             <b>Min:</b> ${station.minWind} km/h<br>
             <b>Max:</b> ${station.maxWind} km/h
           </p>

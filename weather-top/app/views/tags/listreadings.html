@@ -1,31 +1,35 @@
 <table class="ui fixed table">
   <thead>
   <tr>
+    <th style = "text-align: center">Date/Time</th>
     <th style = "text-align: center">Code</th>
     <th style = "text-align: center">Temp</th>
     <th style = "text-align: center">Wind Speed</th>
     <th style = "text-align: center">Wind Direction</th>
     <th style = "text-align: center">Pressure</th>
-    <th style = "text-align: right"></th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
   #{list items:_station.readings, as: 'reading'}
     <tr>
       <td style = "text-align: center">
-        ${reading.code}
+        ${reading?.date}
       </td>
       <td style = "text-align: center">
-        ${reading.temperature}
+        ${reading?.code}
       </td>
       <td style = "text-align: center">
-        ${reading.windSpeed}
+        ${reading?.temperature}
       </td>
       <td style = "text-align: center">
-        ${reading.windDirection}
+        ${reading?.windSpeed}
       </td>
       <td style = "text-align: center">
-        ${reading.pressure}
+        ${reading?.windDirection}
+      </td>
+      <td style = "text-align: center">
+        ${reading?.pressure}
       </td>
       <td>
         <a href="/stations/${_station.id}/deletereading/${reading.id}" class="ui tiny button" style="background-color: mediumpurple;">Delete</a>

@@ -1,13 +1,11 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.lang.Math;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-
 import play.Logger;
 import play.db.jpa.Model;
 
@@ -37,7 +35,6 @@ public class Station extends Model
   public String trendTemp;
   public String trendWind;
   public String trendPressure;
-
 
   /**
    * Constructor for Station object, latitude and longitude are rounded to three decimal places.
@@ -212,74 +209,50 @@ public class Station extends Model
 
   public double minTemp(){
     if (readings.size() !=0){
-      Reading minReading = readings.get(0);
-      double minTemp = minReading.getTemperature();
-      for (Reading reading: readings){
-        if (reading.getTemperature() < minReading.getTemperature())
-          minTemp = reading.getTemperature();
-      }return minTemp;
+      Reading reading = readings.stream().min(Comparator.comparing(Reading::getTemperature)).get();
+      return reading.getTemperature();
     }else
     return 0.0;
   }
 
-  public double maxTemp(){
-    if (readings.size() !=0){
-      Reading maxReading = readings.get(0);
-      double maxTemp = maxReading.getTemperature();
-      for (Reading reading: readings){
-        if (reading.getTemperature() >maxReading.getTemperature())
-          maxTemp = reading.getTemperature();
-      }return maxTemp;
-    }else
+  public double maxTemp() {
+    if (readings.size() != 0) {
+      Reading reading = readings.stream().max(Comparator.comparing(Reading::getTemperature)).get();
+      return reading.getTemperature();
+    } else
+      return 0.0;
+  }
+
+  public double maxWind() {
+    if (readings.size() != 0) {
+      Reading reading = readings.stream().max(Comparator.comparing(Reading::getWindSpeed)).get();
+      return reading.getWindSpeed();
+    } else
       return 0.0;
   }
 
   public double minWind(){
     if (readings.size() !=0){
-      Reading minReading = readings.get(0);
-      double minWind = minReading.getWindSpeed();
-      for (Reading reading: readings){
-        if (reading.getWindSpeed() < minReading.getWindSpeed())
-          minWind= reading.getWindSpeed();
-      }return minWind;
-    }else
-      return 0.0;
-  }
-
-  public double maxWind(){
-    if (readings.size() !=0){
-      Reading maxReading = readings.get(0);
-      double maxWind = maxReading.getWindSpeed();
-      for (Reading reading: readings){
-        if (reading.getWindSpeed() >maxReading.getWindSpeed())
-          maxWind = reading.getWindSpeed();
-      }return maxWind;
+      Reading reading = readings.stream().min(Comparator.comparing(Reading::getWindSpeed)).get();
+      return reading.getWindSpeed();
     }else
       return 0.0;
   }
 
   public double minPressure(){
     if (readings.size() !=0){
-      Reading minReading = readings.get(0);
-      double minPressure = minReading.getPressure();
-      for (Reading reading: readings){
-        if (reading.getPressure() < minReading.getPressure())
-          minPressure= reading.getPressure();
-      }return minPressure;
+      Reading reading = readings.stream().min(Comparator.comparing(Reading::getPressure)).get();
+      return reading.getPressure();
     }else
       return 0.0;
   }
 
   public double maxPressure(){
-    if (readings.size() !=0){
-      Reading maxReading = readings.get(0);
-      double maxPressure = maxReading.getPressure();
-      for (Reading reading: readings){
-        if (reading.getPressure() >maxReading.getPressure())
-          maxPressure = reading.getPressure();
-      }return maxPressure;
-    }else
-      return 0.0;
+      if (readings.size() !=0){
+        Reading reading = readings.stream().max(Comparator.comparing(Reading::getPressure)).get();
+        return reading.getPressure();
+      }else
+        return 0.0;
   }
 
   public Reading getLatestReading() {
@@ -398,12 +371,12 @@ public class Station extends Model
       }
       return beaufort;
     }
+
   private String windCompass() {
     String direction = "direction";
     if(readings.size() !=0) {
       Reading reading = getLatestReading();
       double degrees = reading.getWindDirection();
-
       if (((degrees > 348.75) && (degrees <= 360))||
         ((degrees >=0) && (degrees <= 11.25)))
         direction = "North";
