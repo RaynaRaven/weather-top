@@ -6,6 +6,7 @@
     <th style = "text-align: center">Wind Speed</th>
     <th style = "text-align: center">Wind Direction</th>
     <th style = "text-align: center">Pressure</th>
+    <th style = "text-align: right"></th>
   </tr>
   </thead>
   <tbody>
@@ -26,6 +27,9 @@
       <td style = "text-align: center">
         ${reading.pressure}
       </td>
-    #{/list}
+      <td>
+        <a href="/stations/${_station.id}/deletereading/${reading.id}" class="ui tiny button" style="background-color: mediumpurple;">Delete</a>
+      </td>
+      #{/list}
   </tbody>
 </table>

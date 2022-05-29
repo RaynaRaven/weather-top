@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.List;
 
+import models.Member;
 import models.Reading;
 import models.Station;
 import play.mvc.Controller;
@@ -24,4 +25,17 @@ public class StationCtrl extends Controller {
     station.save();
     redirect ("/stations/" + id);
   }
+
+  public static void deleteReading (Long id, Long readingid)
+  {
+    Station station = Station.findById(id);
+    Reading reading = Reading.findById(readingid);
+    Logger.info ("Removing " + station+" reading:" + readingid);
+    station.readings.remove(reading);
+    station.save();
+    reading.delete();
+    render("station.html", station);
+  }
+
+
 }

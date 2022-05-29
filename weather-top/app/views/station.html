@@ -17,7 +17,7 @@
             <i class="large circular colored white map marked alternate icon" style="float:right;"> </i>
           </div>
           <p>
-            <br><span class="ui large white text">${station.name}</span>
+            <br><span class="ui large white text" style="font-style: "><b>${station.name}</b></span>
           </p>
           <p class = "ui small text" style="line-height:1.25em;font-size: smaller">
             <b>Lat:</b> ${station.latitude}<br>
@@ -99,7 +99,12 @@
     </div>
   </section>
   <section class="ui segment" style="background-color: lavender">
+    #{if station.readings.size() > 0}
     #{listreadings station:station/}
+    #{/if}
+    #{else}
+    <h4> You have not entered any readings</h4>
+    #{/else}
     #{addreading station:station/}
   </section>
 </section>

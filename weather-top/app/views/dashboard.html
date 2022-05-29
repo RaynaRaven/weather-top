@@ -10,7 +10,8 @@
     <h3 class="ui header">
       ${station.name}
     </h3>
-    <a href="/stations/${station.id}"><i class="folder grey open icon"></i> </a>
+    <a href="/stations/${station.id}" ><i class="large icon folder open"></i> </a>
+    <a href="/dashboard/deletestation/${station.id}" ><i class="large icon red trash"></i> </a>
   </section>
   #{/list}
   #{addstation /}

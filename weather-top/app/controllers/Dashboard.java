@@ -27,4 +27,14 @@ public static void addStation (String name,double latitude, double longitude)
     member.save();
     redirect ("/dashboard");
   }
+
+  public static void deleteStation (Long id)
+  {
+    Member member = Accounts.getLoggedInMember();
+    Station station = Station.findById(id);
+    member.stations.remove(station);
+    member.save();
+    station.delete();
+    redirect("/dashboard");
+  }
 }
