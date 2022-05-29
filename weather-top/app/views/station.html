@@ -1,0 +1,76 @@
+#{extends 'main.html' /}
+#{set title:'Station' /}
+
+#{menu id:"dashboard"/}
+
+
+<section class="ui segment">
+  <h2 class="ui header">
+      ${station.name} Weather Station
+    </h2>
+  <h3> <span class="ui medium text">Current Weather</span> </h3>
+  <section class="ui segment" style="background-color: lavender">
+    <div class="ui five column grid">
+        <div class="column" style="padding-left:0.5rem; padding-right: 0.5rem;">
+          <div class="ui inverted segment"
+               style = "background: linear-gradient(yellow, orangered, rebeccapurple)" >
+            <h4>
+              <span class="ui medium blue text">${station.name}</span>
+            </h4>
+            <p style="line-height:1em;"><br><br><br><br></p>
+          </div>
+        </div>
+        <div class="column" style="padding-left:0.5rem; padding-right: 0.5rem;">
+          <div class="ui inverted segment"
+               style = "background: linear-gradient(yellow, orangered, rebeccapurple)" >
+            <h4>
+              <span class="ui medium blue text">Weather</span>
+            </h4>
+            <p style="line-height:1em;">
+              <span class="ui small text">${station.weatherCode}</span><br><br><br><br>
+            </p>
+          </div>
+        </div>
+        <div class="column" style="padding-left:0.5rem; padding-right: 0.5rem;">
+          <div class="ui inverted segment"
+               style = "background: linear-gradient(yellow, orangered, rebeccapurple)" >
+            <h4>
+              <span class="ui medium blue text">Temp</span>
+            </h4>
+            <p style="line-height:1em;">
+              <span class="ui small text">${station.tempCelsius} &degC</span><br>
+              <span class="ui small text">${station.tempFahrenheit} &degF</span><br><br><br>
+            </p>
+          </div>
+        </div>
+        <div class="column" style="padding-left:0.5rem; padding-right: 0.5rem;">
+          <div class="ui inverted segment"
+               style = "background: linear-gradient(yellow, orangered, rebeccapurple)" >
+            <h4>
+              <span class="ui medium blue text">Wind</span>
+            </h4>
+            <p style="line-height:1em;"><span class="ui small text">${station.beaufort} bft</span><br>
+              <span class="ui small text">${station.windCompass}</span><br>
+              <span class="ui small text">feels like</span><br>
+              <span class="ui small text">${station.windChill}</span>
+            </p>
+          </div>
+        </div>
+        <div class="column" style="padding-left:0.5rem; padding-right: 0.5rem;" >
+          <div class="ui inverted segment"
+               style = "background: linear-gradient(yellow, orangered, rebeccapurple)" >
+            <h4>
+              <span class="ui medium blue text">Pressure</span>
+            </h4>
+            <p style="line-height:1em;">
+              <span class="ui small text">${station.pressure} hpa </span><br><br><br><br>
+            </p>
+          </div>
+        </div>
+      </div>
+  </section>
+  <section class="ui segment" style="background-color: lavender">
+   #{listreadings station:station/}
+    #{addreading station:station/}
+  </section>
+</section>

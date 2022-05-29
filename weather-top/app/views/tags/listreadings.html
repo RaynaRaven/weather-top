@@ -1,25 +1,29 @@
 <table class="ui fixed table">
   <thead>
   <tr>
-    <th>Code</th>
-    <th>Temp</th>
-    <th>Wind Speed</th>
-    <th>Pressure</th>
+    <th style = "text-align: center">Code</th>
+    <th style = "text-align: center">Temp</th>
+    <th style = "text-align: center">Wind Speed</th>
+    <th style = "text-align: center">Wind Direction</th>
+    <th style = "text-align: center">Pressure</th>
   </tr>
   </thead>
   <tbody>
   #{list items:_station.readings, as: 'reading'}
     <tr>
-      <td>
+      <td style = "text-align: center">
         ${reading.code}
       </td>
-      <td>
+      <td style = "text-align: center">
         ${reading.temperature}
       </td>
-      <td>
+      <td style = "text-align: center">
         ${reading.windSpeed}
       </td>
-      <td>
+      <td style = "text-align: center">
+        ${reading.windDirection}
+      </td>
+      <td style = "text-align: center">
         ${reading.pressure}
       </td>
     #{/list}

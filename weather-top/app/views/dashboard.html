@@ -3,65 +3,15 @@
 
 #{menu id:"dashboard"/}
 
+<section class="ui raised segment">
+  <h2>  Weather Stations </h2>
  #{list items:stations, as:'station'}
-  <section class="ui raised segment">
-    <h2 class="ui header">
+  <section class="ui segment" style="background-color: lavender">
+    <h3 class="ui header">
       ${station.name}
-    </h2>
-    <div class="ui five column grid">
-      <div class="column">
-        <div class="ui inverted segment"
-             style = "background: linear-gradient(yellow, orangered, rebeccapurple)" >
-          <h4>
-           <span class="ui medium blue text">${station.name}</span> <br><br><br>
-          </h4>
-          <p></p>
-        </div>
-      </div>
-      <div class="column">
-        <div class="ui inverted segment"
-             style = "background: linear-gradient(yellow, orangered, rebeccapurple)" >
-          <h4>
-            <span class="ui medium blue text">Weather</span>
-          </h4>
-          <p>
-            ${station.weatherCode}<br><br>
-          </p>
-        </div>
-      </div>
-      <div class="column">
-        <div class="ui inverted segment"
-             style = "background: linear-gradient(yellow, orangered, rebeccapurple)" >
-          <h4>
-            <span class="ui medium blue text">Temp</span>
-          </h4>
-          <p>
-            ${station.tempCelsius} &degC<br>
-            ${station.tempFahrenheit} &degF
-          </p>
-        </div>
-      </div>
-      <div class="column">
-        <div class="ui inverted segment"
-             style = "background: linear-gradient(yellow, orangered, rebeccapurple)" >
-          <h4>
-            <span class="ui medium blue text">Wind</span>
-          </h4>
-          <p>${station.beaufort} bft <br><br></p>
-        </div>
-      </div>
-      <div class="column">
-        <div class="ui inverted segment"
-             style = "background: linear-gradient(yellow, orangered, rebeccapurple)" >
-          <h4>
-            <span class="ui medium blue text">Pressure</span>
-          </h4>
-          <p>
-            ${station.pressure} hpa <br><br>
-          </p>
-        </div>
-      </div>
-    </div>
-    #{listreadings station:station/}
+    </h3>
+    <a href="/stations/${station.id}"><i class="folder grey open icon"></i> </a>
   </section>
-#{/list}
+  #{/list}
+  #{addstation /}
+</section>
