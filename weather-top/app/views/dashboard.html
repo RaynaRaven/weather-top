@@ -1,0 +1,13 @@
+#{extends 'main.html' /}
+#{set title:'Dashboard' /}
+
+#{menu id:"dashboard"/}
+
+ #{list items:stations, as:'station'}
+  <section class="ui raised segment">
+    <h2 class="ui header">
+      ${station.name}
+    </h2>
+    #{listreadings station:station/}
+  </section>
+#{/list}
