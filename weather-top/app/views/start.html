@@ -1,13 +1,27 @@
 #{extends 'main.html' /}
-#{set title:'About' /}
+#{set title:'Start' /}
 
-#{menu id:"start"/}
+#{welcomemenu id:"start"/}
 
-<section class="ui center aligned middle aligned segment">
-  <h1 class="ui header">
-    Welcome to WeatherTop App!
-  </h1>
-  <p>
-    An app to display WeatherTop Station readings.
-  </p>
+<section class="ui center aligned middle aligned column">
+  <div class="ui two column grid" >
+    <div class="column" style="padding-top: 5%; padding-right: 0 ">
+      <div class="ui center aligned segment" >
+        <h2 class="ui center aligned blue header">
+          Welcome to WeatherTop
+        </h2>
+        <p>
+          A small app to upload and display your weather data.<br><br>
+          This app will allow you to create new weather stations,
+          manage and share your readings on your own personalised dashboard.<br><br>
+          Please Signup or Login using the menu above <br><br><br>
+        </p>
+      </div>
+    </div>
+    <div class="column" style="padding-top: 5%; padding-left: 0">
+      <div class="ui segment" style="padding: 0;">
+        <img class="ui image" src="/public/images/weathertop-start.png">
+      </div>
+    </div>
+  </div>
 </section>

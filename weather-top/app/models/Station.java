@@ -10,12 +10,13 @@ import javax.persistence.OneToMany;
 
 import play.Logger;
 import play.db.jpa.Model;
-import play.jobs.On;
 
 @Entity
 public class Station extends Model
 {
   public String name;
+  public double latitude;
+  public double longitude;
   @OneToMany(cascade = CascadeType.ALL)
   public List<Reading> readings = new ArrayList<Reading>();
   public String weatherCode;
@@ -26,12 +27,31 @@ public class Station extends Model
   public Reading latestReading;
   public String windCompass;
   public double windChill;
+  public String weatherIcon;
+  public double minTemp;
+  public double maxTemp;
+  public double minWind;
+  public double maxWind;
+  public double minPressure;
+  public double maxPressure;
+
   /**
-   * Constructor for Station object
-   * @param name
+   * Constructor for Station object, latitude and longitude are rounded to three decimal places.
+   * @param name describes the station name
+   * @param latitude describes geographical location of station between north and south pole, expressed in decimal degrees
+   * @param longitude describes the geographical location of a station east or west of greenwich meridian, expressed in decimal degrees
    */
-  public Station(String name) {
+  public Station(String name, double latitude, double longitude) {
     this.name = name;
+    latitude = roundAvoid(latitude, 3);
+    this.latitude = latitude;
+    longitude = roundAvoid(longitude,3);
+    this.longitude= longitude;
+  }
+
+  public static double roundAvoid(double value, int places) {
+    double scale = Math.pow(10, places);
+    return Math.round(value * scale) / scale;
   }
   /*
    * Getter methods for Station fields.
@@ -68,6 +88,115 @@ public class Station extends Model
     this.pressure = pressure();
     return pressure;
   }
+
+  public String getWeatherIcon(){
+    this.weatherIcon = weatherIcon();
+    return weatherIcon;
+  }
+
+  public double getMinTemp() {
+    this.minTemp = minTemp();
+    return minTemp;
+  }
+
+  public double getMaxTemp() {
+   this.maxTemp = maxTemp();
+   return maxTemp;
+  }
+
+
+  public double getMinWind() {
+    this.minWind = minWind();
+    return minWind;
+  }
+
+  public double getMaxWind() {
+    this.maxWind = maxWind();
+    return maxWind;
+  }
+
+  public double getMinPressure() {
+    this.minPressure = minPressure();
+    return minPressure;
+  }
+
+  public double getMaxPressure() {
+    this.maxPressure = maxPressure();
+    return maxPressure;
+  }
+
+  public double minTemp(){
+    if (readings.size() !=0){
+      Reading minReading = readings.get(0);
+      double minTemp = minReading.getTemperature();
+      for (Reading reading: readings){
+        if (reading.getTemperature() < minReading.getTemperature())
+          minTemp = reading.getTemperature();
+      }return minTemp;
+    }else
+    return 0.0;
+  }
+
+  public double maxTemp(){
+    if (readings.size() !=0){
+      Reading maxReading = readings.get(0);
+      double maxTemp = maxReading.getTemperature();
+      for (Reading reading: readings){
+        if (reading.getTemperature() >maxReading.getTemperature())
+          maxTemp = reading.getTemperature();
+      }return maxTemp;
+    }else
+      return 0.0;
+  }
+
+  public double minWind(){
+    if (readings.size() !=0){
+      Reading minReading = readings.get(0);
+      double minWind = minReading.getWindSpeed();
+      for (Reading reading: readings){
+        if (reading.getWindSpeed() < minReading.getWindSpeed())
+          minWind= reading.getWindSpeed();
+      }return minWind;
+    }else
+      return 0.0;
+  }
+
+  public double maxWind(){
+    if (readings.size() !=0){
+      Reading maxReading = readings.get(0);
+      double maxWind = maxReading.getWindSpeed();
+      for (Reading reading: readings){
+        if (reading.getWindSpeed() >maxReading.getWindSpeed())
+          maxWind = reading.getWindSpeed();
+      }return maxWind;
+    }else
+      return 0.0;
+  }
+
+  public double minPressure(){
+    if (readings.size() !=0){
+      Reading minReading = readings.get(0);
+      double minPressure = minReading.getPressure();
+      for (Reading reading: readings){
+        if (reading.getPressure() < minReading.getPressure())
+          minPressure= reading.getPressure();
+      }return minPressure;
+    }else
+      return 0.0;
+  }
+
+  public double maxPressure(){
+    if (readings.size() !=0){
+      Reading maxReading = readings.get(0);
+      double maxPressure = maxReading.getPressure();
+      for (Reading reading: readings){
+        if (reading.getPressure() >maxReading.getPressure())
+          maxPressure = reading.getPressure();
+      }return maxPressure;
+    }else
+      return 0.0;
+  }
+
   public Reading getLatestReading() {
     if (readings.size() !=0){
       int lastReadingIndex = readings.size()-1;
@@ -83,23 +212,10 @@ public class Station extends Model
    * @return
    */
   public String weatherCode(){
-    /*initialize a local weatherCode variable
-     */
     String weatherCode = "weather description";
     if (readings.size() !=0){
-      /*declare a reading object and initialise to
-      * the latest reading by calling the getLastReading()
-      * method
-      */
       Reading reading = getLatestReading();
-      /*
-      * Initialise a code variable and get the code value from
-      * the above instance of reading.
-      */
       int code = reading.getCode();
-      /*
-      * Passing local variable code as the parameter for a switch statement
-      */
       switch (code){
         case 100:
           weatherCode = "Clear";
@@ -134,7 +250,7 @@ public class Station extends Model
   /**
    * tempCelcius() is a method that takes the temperature value from the
    * latest reading and returns it as a double.
-   * @return
+   * @return temperature from latest reading or 0.0
    */
   public double tempCelsius()
   {
@@ -147,16 +263,17 @@ public class Station extends Model
   /**
    * tempFahrenheit() is a method that converts the temperature value
    * from the latest reading to Fahrenheit and returns it as an int variable.
-   * @return
+   * @return fahrenheit conversion value or 0.0
    */
   public double tempFahrenheit()
   {
     if (readings.size() !=0){
       Reading reading = getLatestReading();
-      double fahrenheit = reading.getTemperature() * 9/5 + 32;
+      return reading.getTemperature() * 9/5 + 32;
+    } else {
+      double fahrenheit = 0.0;
       return fahrenheit;
-    } else
-      return 0.0;
+    }
   }
   /**
    * beaufort() is a method that converts the windSpeed value
@@ -193,8 +310,6 @@ public class Station extends Model
         beaufort = 10;
       else if ((windSpeed>=103)&&(windSpeed<117))
         beaufort = 11;
-      else
-        beaufort = -1;
       }
       return beaufort;
     }
@@ -264,4 +379,40 @@ public class Station extends Model
       return 0;
   }
 
+  public String weatherIcon(){
+    String weatherIcon = "null";
+    if (readings.size() !=0){
+      Reading reading = getLatestReading();
+      int code = reading.getCode();
+      switch (code){
+        case 100:
+          weatherIcon = "large circular colored white sun icon";
+          break;
+        case 200:
+          weatherIcon = "large circular colored white cloud sun icon";
+          break;
+        case 300:
+          weatherIcon = "large circular colored white cloud icon";
+          break;
+        case 400:
+          weatherIcon = "large circular colored white cloud sun rain icon";
+          break;
+        case 500:
+          weatherIcon = "large circular colored white cloud showers heavy icon";
+          break;
+        case 600:
+          weatherIcon = "large circular colored white cloud rain icon";
+          break;
+        case 700:
+          weatherIcon = "large circular colored white snowflake icon";
+          break;
+        case 800:
+          weatherIcon = "large circular colored white poo storm icon";
+          break;
+        default:
+          weatherIcon = "null";
+      }
+    }
+    return weatherIcon;
+  }
 }
